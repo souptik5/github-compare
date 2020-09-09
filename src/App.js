@@ -1,60 +1,106 @@
-import React from 'react';
-import logo from './logo.svg';
-import { Counter } from './features/counter/Counter';
-import './App.css';
+import React from "react";
+// import logo from './logo.svg';
+// import { Counter } from './features/counter/Counter';
+import { CustomCard } from "./components/CustomCard";
+import "./App.css";
+
+import {
+  Layout,
+  Menu,
+  Breadcrumb,
+  Avatar,
+  Input,
+  Card,
+  Row,
+  Col,
+  Button,
+  PageHeader,
+} from "antd";
 
 function App() {
+  const { Header, Content, Footer } = Layout;
+  const { Search } = Input;
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <Counter />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <span>
-          <span>Learn </span>
-          <a
-            className="App-link"
-            href="https://reactjs.org/"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            React
-          </a>
-          <span>, </span>
-          <a
-            className="App-link"
-            href="https://redux.js.org/"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Redux
-          </a>
-          <span>, </span>
-          <a
-            className="App-link"
-            href="https://redux-toolkit.js.org/"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Redux Toolkit
-          </a>
-          ,<span> and </span>
-          <a
-            className="App-link"
-            href="https://react-redux.js.org/"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            React Redux
-          </a>
-        </span>
-      </header>
-    </div>
+    <Layout className="layout">
+      <Header>
+        <Avatar
+          className="logo"
+          src="https://github.githubassets.com/images/modules/logos_page/Octocat.png"
+        ></Avatar>
+        <Menu
+          theme="dark"
+          mode="horizontal"
+          defaultSelectedKeys={["0"]}
+          style={{ fontSize: "20px" }}
+        >
+          <Menu.Item key="1">GitHubCompare</Menu.Item>
+        </Menu>
+      </Header>
+      <Content style={{ padding: "0 50px" }}>
+        <Breadcrumb style={{ margin: "16px 0" }}>
+          <Breadcrumb.Item>Home</Breadcrumb.Item>
+          <Breadcrumb.Item>Dashboard</Breadcrumb.Item>
+        </Breadcrumb>
+        <div className="site-layout-content">
+          <Row style={{ paddingBottom: "24px" }}>
+            <Col span={8}></Col>
+            <Col span={8}>
+              <Search
+                placeholder="Enter a GitHub username"
+                enterButton="Compare"
+                size="large"
+                onSearch={(value) => console.log(value)}
+              />
+            </Col>
+          </Row>
+          <Row>
+            <Col span={24}>
+              <Card>
+                <PageHeader
+                  title="Compare"
+                  extra={[
+                    <Button key="1" type="primary" style={{ width: "100px" }}>
+                      Sort
+                    </Button>,
+                  ]}
+                ></PageHeader>
+                <Row gutter="4">
+                  <Col span={6}>
+                    <CustomCard />
+                  </Col>
+                  <Col span={6}>
+                    <CustomCard />
+                  </Col>
+                  <Col span={6}>
+                    <CustomCard />
+                  </Col>
+                  <Col span={6}>
+                    <CustomCard />
+                  </Col>
+                  <Col span={6}>
+                    <CustomCard />
+                  </Col>
+                  <Col span={6}>
+                    <CustomCard />
+                  </Col>
+                  <Col span={6}>
+                    <CustomCard />
+                  </Col>
+                  <Col span={6}>
+                    <CustomCard />
+                  </Col>
+                </Row>
+              </Card>
+            </Col>
+          </Row>
+        </div>
+      </Content>
+      <Footer style={{ textAlign: "right" }}>
+        Souptik Kumar Saha ©2020 Created by Souptik Kumar Saha
+      </Footer>
+    </Layout>
   );
 }
 
 export default App;
-
-
