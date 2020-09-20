@@ -1,6 +1,4 @@
-import React from "react";
-// import logo from './logo.svg';
-// import { Counter } from './features/counter/Counter';
+import React, { useState, useEffect } from "react";
 import { CustomCard } from "./components/CustomCard";
 import "./App.css";
 
@@ -18,11 +16,42 @@ import {
 } from "antd";
 // import {GitlabOutlined} from "@ant-design/icons";
 
-
-
 function App() {
   const { Header, Content, Footer } = Layout;
   const { Search } = Input;
+
+  // const [query, setQuery] = useState('');
+  const [query, setQuery] = useState("");
+  const [data, setData] = useState([]);
+  // const [index, setIndex] = useState(0);
+  // setData(...[data], {
+  //   username: 'souptik5',
+  //   followers: '100',
+  //   following: '50',
+  //   repos: '69',
+  //   gists: '42',
+  // })
+  // const [loading, setLoading] = useState(false);
+
+  useEffect(() => {
+    // console.log(data);
+    let resJson = {};
+    const fetchFunc = async () => {
+      if (query.length > 0) {
+        const response = await fetch(`https://api.github.com/users/${query}`);
+        resJson = await response.json();
+      }
+      // console.log(resJson);
+      if (resJson.login) {
+        setData((data) => [...data, resJson]);
+      }
+    };
+    fetchFunc();
+  }, [query]);
+
+  const resetUsers = () => {
+    setData([]);
+  };
 
   return (
     <Layout className="layout">
@@ -45,7 +74,7 @@ function App() {
           <Breadcrumb.Item>Home</Breadcrumb.Item>
           <Breadcrumb.Item>Dashboard</Breadcrumb.Item>
         </Breadcrumb>
-        <div className="site-layout-content" style={{overflowY: "auto"}}>
+        <div className="site-layout-content" style={{ overflowY: "auto" }}>
           <Row style={{ paddingBottom: "24px" }}>
             <Col span={8}></Col>
             <Col span={8}>
@@ -53,61 +82,41 @@ function App() {
                 placeholder="Enter a GitHub username"
                 enterButton="Compare"
                 size="large"
-                onSearch={(value) => console.log(value)}
+                onSearch={(value) => setQuery(value)}
               />
             </Col>
           </Row>
           <Row>
-            <Col span={24}>
-              <Card>
-                <PageHeader
-                  title="Compare 🛠"
-                  extra={[
-                    <Button key="1" type="primary" style={{ width: "100px" }}>
-                      Sort
-                    </Button>,
-                  ]}
-                ></PageHeader>
-                <Row gutter="4">
-                  <Col span={6}>
-                    <CustomCard />
-                  </Col>
-                  <Col span={6}>
-                    <CustomCard />
-                  </Col>
-                  <Col span={6}>
-                    <CustomCard />
-                  </Col>
-                  <Col span={6}>
-                    <CustomCard />
-                  </Col>
-                  <Col span={6}>
-                    <CustomCard />
-                  </Col>
-                  <Col span={6}>
-                    <CustomCard />
-                  </Col>
-                  <Col span={6}>
-                    <CustomCard />
-                  </Col>
-                  <Col span={6}>
-                    <CustomCard />
-                  </Col>
-                  <Col span={6}>
-                    <CustomCard />
-                  </Col>
-                  <Col span={6}>
-                    <CustomCard />
-                  </Col>
-                  <Col span={6}>
-                    <CustomCard />
-                  </Col>
-                  <Col span={6}>
-                    <CustomCard />
-                  </Col>
-                </Row>
-              </Card>
-            </Col>
+            {data.length > 0 ? (
+              <Col span={24}>
+                <Card>
+                  <PageHeader
+                    title="Compare 🛠"
+                    extra={[
+                      <Button
+                        key="1"
+                        type="primary"
+                        style={{ width: "100px" }}
+                        onClick={resetUsers}
+                      >
+                        Reset
+                      </Button>,
+                    ]}
+                  ></PageHeader>
+                  <div className="Data">
+                    <Row gutter="4">
+                      {data.map((data, i) => (
+                        <Col span={6} key={i}>
+                          <CustomCard userdata={data} index={i} />
+                        </Col>
+                      ))}
+                    </Row>
+                  </div>
+                </Card>
+              </Col>
+            ) : (
+              <Col span={24}></Col>
+            )}
           </Row>
         </div>
       </Content>
