@@ -1,4 +1,8 @@
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app), using the [Redux](https://redux.js.org/) and [Redux Toolkit](https://redux-toolkit.js.org/) template.
+## Description
+
+An web application built using React to view and compare different GitHub profiles.
+
+Find the live application [here](https://github-compare-5.herokuapp.com/).
 
 ## Available Scripts
 
