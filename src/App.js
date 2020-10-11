@@ -37,40 +37,48 @@ function App() {
   // const [loading, setLoading] = useState(false);
 
   useEffect(() => {
-    // console.log(data);
-    let resJson = {};
-    const fetchFunc = async () => {
-      if (query.length > 0) {
-        const response = await fetch(`https://api.github.com/users/${query}`);
-        resJson = await response.json();
-      }
-      // console.log(resJson);
-      if (resJson.login) {
-        setData((data) => [...data, resJson]);
-      }
-    };
-    const sortArray = (type) => {
-      const types = {
-        public_repos: "public_repos",
-        public_gists: "public_gists",
-        followers: "followers",
-        following: "following",
-      };
-      const sortProperty = types[type];
-      const sorted = [...data].sort(
-        (a, b) => b[sortProperty] - a[sortProperty]
-      );
-      // console.log(sorted);
-      setData(sorted);
-    };
-    sortArray(sortType);
     fetchFunc();
     // eslint-disable-next-line
-  }, [query, sortType]);
+  }, [query]);
 
   const resetUsers = () => {
     setData([]);
     setQuery("");
+  };
+  const sortArray = (unsortedData, type) => {
+    const types = {
+      public_repos: "public_repos",
+      public_gists: "public_gists",
+      followers: "followers",
+      following: "following",
+    };
+    const sortProperty = types[type];
+    const sorted = unsortedData.sort(
+      (a, b) => b[sortProperty] - a[sortProperty]
+    );
+    return sorted;
+  };
+  const fetchFunc = async () => {
+    data.filter((profile) => console.log(typeof profile?.login));
+    if (query.length > 0) {
+      if (
+        data
+          .slice()
+          .filter(
+            (profile) => profile?.login.toLowerCase() === query.toLowerCase()
+          ).length === 0 ||
+        data.length === 0
+      ) {
+        const response = await fetch(`https://api.github.com/users/${query}`);
+        const respJson = await response.json();
+        console.log(respJson);
+        if (respJson.login) {
+          const unsortedData = [...data, respJson];
+          const sorted = sortArray(unsortedData, sortType);
+          setData(sorted);
+        }
+      }
+    }
   };
 
   return (
