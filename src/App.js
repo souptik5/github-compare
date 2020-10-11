@@ -25,7 +25,7 @@ function App() {
   // const [query, setQuery] = useState('');
   const [query, setQuery] = useState("");
   const [data, setData] = useState([]);
-  const [sortType, setSortType] = useState('public_repos'); //for sorting array
+  const [sortType, setSortType] = useState("public_repos"); //for sorting array
   // const [index, setIndex] = useState(0);
   // setData(...[data], {
   //   username: 'souptik5',
@@ -49,20 +49,23 @@ function App() {
         setData((data) => [...data, resJson]);
       }
     };
-    const sortArray = type => {
+    const sortArray = (type) => {
       const types = {
-        public_repos: 'public_repos',
-        public_gists: 'public_gists',
-        followers: 'followers',
-        following: 'following',
+        public_repos: "public_repos",
+        public_gists: "public_gists",
+        followers: "followers",
+        following: "following",
       };
       const sortProperty = types[type];
-      const sorted = [...data].sort((a, b) => b[sortProperty] - a[sortProperty]);
-      console.log(sorted);
+      const sorted = [...data].sort(
+        (a, b) => b[sortProperty] - a[sortProperty]
+      );
+      // console.log(sorted);
       setData(sorted);
     };
     sortArray(sortType);
     fetchFunc();
+    // eslint-disable-next-line
   }, [query, sortType]);
 
   const resetUsers = () => {
@@ -99,7 +102,10 @@ function App() {
                 placeholder="Enter a GitHub username"
                 enterButton="Compare"
                 size="large"
-                onSearch={(value) => {setQuery(value); setSortType('public_repos');}}
+                onSearch={(value) => {
+                  setQuery(value);
+                  setSortType("public_repos");
+                }}
               />
             </Col>
           </Row>
@@ -138,7 +144,10 @@ function App() {
         </div>
       </Content>
       <Footer style={{ textAlign: "right" }}>
-        Souptik Kumar Saha ©2020 Created by Souptik Kumar Saha | <Link href={`https://github.com/souptik5`} target="_blank">GitHub</Link>
+        Souptik Kumar Saha ©2020 Created by Souptik Kumar Saha |{" "}
+        <Link href={`https://github.com/souptik5`} target="_blank">
+          GitHub
+        </Link>
       </Footer>
     </Layout>
   );
