@@ -13,12 +13,14 @@ import {
   Col,
   Button,
   PageHeader,
+  Typography,
 } from "antd";
 // import {GitlabOutlined} from "@ant-design/icons";
 
 function App() {
   const { Header, Content, Footer } = Layout;
   const { Search } = Input;
+  const { Link } = Typography;
 
   // const [query, setQuery] = useState('');
   const [query, setQuery] = useState("");
@@ -121,7 +123,7 @@ function App() {
         </div>
       </Content>
       <Footer style={{ textAlign: "right" }}>
-        Souptik Kumar Saha ©2020 Created by Souptik Kumar Saha
+        Souptik Kumar Saha ©2020 Created by Souptik Kumar Saha | <Link href={`https://github.com/souptik5`} target="_blank">GitHub</Link>
       </Footer>
     </Layout>
   );
