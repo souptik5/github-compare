@@ -25,6 +25,7 @@ function App() {
   // const [query, setQuery] = useState('');
   const [query, setQuery] = useState("");
   const [data, setData] = useState([]);
+  const [sortType, setSortType] = useState('public_repos'); //for sorting array
   // const [index, setIndex] = useState(0);
   // setData(...[data], {
   //   username: 'souptik5',
@@ -48,11 +49,25 @@ function App() {
         setData((data) => [...data, resJson]);
       }
     };
+    const sortArray = type => {
+      const types = {
+        public_repos: 'public_repos',
+        public_gists: 'public_gists',
+        followers: 'followers',
+        following: 'following',
+      };
+      const sortProperty = types[type];
+      const sorted = [...data].sort((a, b) => b[sortProperty] - a[sortProperty]);
+      console.log(sorted);
+      setData(sorted);
+    };
+    sortArray(sortType);
     fetchFunc();
-  }, [query]);
+  }, [query, sortType]);
 
   const resetUsers = () => {
     setData([]);
+    setQuery("");
   };
 
   return (
@@ -84,7 +99,7 @@ function App() {
                 placeholder="Enter a GitHub username"
                 enterButton="Compare"
                 size="large"
-                onSearch={(value) => setQuery(value)}
+                onSearch={(value) => {setQuery(value); setSortType('public_repos');}}
               />
             </Col>
           </Row>
@@ -107,9 +122,9 @@ function App() {
                   ></PageHeader>
                   <div className="Data">
                     <Row gutter="4">
-                      {data.map((data, i) => (
-                        <Col span={6} key={i}>
-                          <CustomCard userdata={data} index={i} />
+                      {data.map((data) => (
+                        <Col span={6} key={data.id}>
+                          <CustomCard userdata={data} index={data.id} />
                         </Col>
                       ))}
                     </Row>
